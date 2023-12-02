@@ -3,6 +3,7 @@ import './App.css';
 import {getUsers} from "./data/fetchData";
 import Users from "./components/Users";
 import Paging from "./components/Paging";
+import SearchBox from "./components/SearchBox";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -14,27 +15,6 @@ function App() {
     getUsers(setUsers);
     // console.log(users);
   }, []);
-
-  const searchInUsers = (search, users) => {
-    let tempSearch = search.toLowerCase();
-    return users.map((user) => {
-      if (
-        user.name.toLowerCase().includes(tempSearch) ||
-        user.email.toLowerCase().includes(tempSearch) ||
-        user.role.toLowerCase().includes(tempSearch)
-      ) {
-         user.show = true;
-         return user;
-      }
-      user.show = false;
-      return user;
-    });
-  };
-
-  const searchUsers = (e) => {
-    setPage(1);
-    setUsers(searchInUsers(e.target.value, users));
-  };
 
   const deleteUser = (id) => {
     let tempUsers = users.filter((user) => user.id !== id);
@@ -102,6 +82,10 @@ function App() {
 
   return (
     <div className="App">
+      <SearchBox
+        users={users}
+        setUsers={setUsers} 
+      ></SearchBox>
       <Users
         page={page}
         setPage={setPage}
