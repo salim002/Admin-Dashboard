@@ -1,7 +1,16 @@
 import React from 'react'
+import styles from "./SearchBoxStyles.module.css";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 
 const SearchBox = (props) => {
-    const {users, setUsers} = props;
+    const {users, setUsers, selectAllRef} = props;
+
+    const deleteSelected = () => {
+        if (window.confirm("Are you sure to delete all selected users?")) {
+            setUsers((prevState) => prevState.filter((user) => !user.selected));
+            selectAllRef.current.checked = false;
+        }
+    };
 
     const searchInUsers = (search, users) => {
         let tempSearch = search.toLowerCase();
@@ -24,13 +33,16 @@ const SearchBox = (props) => {
     }
 
   return (
-    <div>
+    <div className={styles.topdiv}>
       <input
-        className="search"
+        className={styles.search}
         type="text"
-        placeholder="Search by name, email or role"
+        placeholder="Enter Value..."
         onChange={searchUsers}
       ></input>
+      <div className={styles.delete} onClick={() => deleteSelected()}>
+        <MdOutlineDeleteOutline className={styles.deleteIcon} />
+      </div>
     </div>
   )
 }

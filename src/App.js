@@ -16,68 +16,10 @@ function App() {
     // console.log(users);
   }, []);
 
-  const deleteUser = (id) => {
-    let tempUsers = users.filter((user) => user.id !== id);
-    setUsers(tempUsers);
-    setUpdate((prevState) => !prevState);
-  };
-
-  const editUser = (id) => {
-    let tempUsers = users;
-    const index = tempUsers.findIndex((user) => user.id === id);
-    tempUsers[index].edit = true;
-    setUsers(tempUsers);
-    setUpdate((prevState) => !prevState);
-  };
-
-  const saveUser = (id, nameRef, emailRef, roleRef) => {
-    let tempUsers = users;
-    const index = tempUsers.findIndex((user) => user.id === id);
-    tempUsers[index].name = nameRef.current.value;
-    tempUsers[index].email = emailRef.current.value;
-    tempUsers[index].role = roleRef.current.value;
-    tempUsers[index].edit = false;
-    setUsers(tempUsers);
-    setUpdate((prevState) => !prevState);
-  };
-
-  const selectOne = (id) => {
-    let tempUsers = users;
-    const index = tempUsers.findIndex((user) => user.id === id);
-    tempUsers[index].selected = !tempUsers[index].selected;
-    setUsers(tempUsers);
-    setUpdate((prevState) => !prevState);
-  };
-
-  const selectAll = (e) => {
-    const listedUserIds = users
-      .filter((user) => user.show)
-      .slice(index, index + 10)
-      .map((user) => user.id);
-
-    let tempUsers = users.map((user) => {
-      if (listedUserIds.includes(user.id)) {
-        user.selected = e.target.checked;
-        return user;
-      }
-      return user;
-    });
-
-    setUsers(tempUsers);
-    setUpdate(!update);
-  };
-
-  const deleteSelected = () => {
-    if (window.confirm("Selected users will be deleted")) {
-      setUsers((prevState) => prevState.filter((user) => !user.selected));
-      selectAllRef.current.checked = false;
-    }
-  };
-
-  const getRecordIndex = (page)=> {
+  const getIndex = (page)=> {
     return (page-1)*10;
   }
-  const index = getRecordIndex(page);
+  const index = getIndex(page);
   
 
   return (
@@ -85,16 +27,15 @@ function App() {
       <SearchBox
         users={users}
         setUsers={setUsers} 
+        selectAllRef={selectAllRef}
       ></SearchBox>
       <Users
         page={page}
         setPage={setPage}
-        selectAll={selectAll}
+        setUsers={setUsers}
+        update={update}
+        setUpdate={setUpdate}
         selectAllRef={selectAllRef}
-        selectOne={selectOne}
-        saveUser={saveUser}
-        editUser={editUser}
-        deleteUser={deleteUser}
         users={users.filter((user) => user.show).slice(index, index + 10)}
       ></Users>
 
@@ -102,7 +43,8 @@ function App() {
         usersLength={users.filter((user) => user.show).length}
         page={page}
         setPage={setPage}
-        deleteSelected={deleteSelected}
+        setUsers={setUsers}
+        selectAllRef={selectAllRef}
       ></Paging>
     </div>
   );

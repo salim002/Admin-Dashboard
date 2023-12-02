@@ -1,7 +1,7 @@
 import React, {useRef} from 'react'
 import styles from "./SingleUserStyles.module.css";
 import { FaRegEdit, FaRegSave } from "react-icons/fa";
-import { RiDeleteBin7Line } from "react-icons/ri";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const SingleUser = (props) => {
     const { user, deleteUser, editUser, saveUser, selectOne } = props;
@@ -58,7 +58,7 @@ const SingleUser = (props) => {
         ) : (
             <FaRegEdit onClick={() => editUser(user.id)} />
         )}
-        <RiDeleteBin7Line onClick={() => deleteUser(user.id)} />
+        <AiOutlineDelete onClick={() => deleteUser(user.id)} />
       </td>
     </tr>
   )

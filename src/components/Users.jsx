@@ -5,15 +5,70 @@ import SingleUser from "./SingleUser";
 const Users = (props) => {
     const {
         users,
-        deleteUser,
-        editUser,
-        saveUser,
-        selectAll,
-        selectOne,
+        setUsers,
+        update,
+        setUpdate,
         selectAllRef,
         setPage,
         page,
       } = props;
+
+      const deleteUser = (id) => {
+        let tempUsers = users.filter((user) => user.id !== id);
+        setUsers(tempUsers);
+        setUpdate((prevState) => !prevState);
+      };
+
+      const editUser = (id) => {
+        let tempUsers = users;
+        const index = tempUsers.findIndex((user) => user.id === id);
+        tempUsers[index].edit = true;
+        setUsers(tempUsers);
+        setUpdate((prevState) => !prevState);
+      };
+
+      const selectOne = (id) => {
+        let tempUsers = users;
+        const index = tempUsers.findIndex((user) => user.id === id);
+        tempUsers[index].selected = !tempUsers[index].selected;
+        setUsers(tempUsers);
+        setUpdate((prevState) => !prevState);
+      };
+
+      const getIndex = (page)=> {
+        return (page-1)*10;
+      }
+      const index = getIndex(page);
+
+      const selectAll = (e) => {
+        const listedUserIds = users
+          .filter((user) => user.show)
+          .slice(index, index + 10)
+          .map((user) => user.id);
+    
+        let tempUsers = users.map((user) => {
+          if (listedUserIds.includes(user.id)) {
+            user.selected = e.target.checked;
+            return user;
+          }
+          return user;
+        });
+    
+        setUsers(tempUsers);
+        setUpdate(!update);
+      };
+
+      const saveUser = (id, nameRef, emailRef, roleRef) => {
+        let tempUsers = users;
+        const index = tempUsers.findIndex((user) => user.id === id);
+        tempUsers[index].name = nameRef.current.value;
+        tempUsers[index].email = emailRef.current.value;
+        tempUsers[index].role = roleRef.current.value;
+        tempUsers[index].edit = false;
+        setUsers(tempUsers);
+        setUpdate((prevState) => !prevState);
+      };
+
       useEffect(() => {
         if (users.length === 0 && page > 1) {
           setPage(page - 1);
