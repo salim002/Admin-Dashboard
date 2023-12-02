@@ -1,5 +1,7 @@
 import React, {useRef} from 'react'
 import styles from "./SingleUserStyles.module.css";
+import { FaRegEdit, FaRegSave } from "react-icons/fa";
+import { RiDeleteBin7Line } from "react-icons/ri";
 
 const SingleUser = (props) => {
     const { user, deleteUser, editUser, saveUser, selectOne } = props;
@@ -52,15 +54,11 @@ const SingleUser = (props) => {
       </td>
       <td className={styles.icons}>
         {user.edit ? (
-          <i
-            onClick={() => saveUser(user.id, nameRef, emailRef, roleRef)}
-            className="fas fa-save"
-          ></i>
+            <FaRegSave onClick={() => saveUser(user.id, nameRef, emailRef, roleRef)} />
         ) : (
-          <i onClick={() => editUser(user.id)} className="fas fa-edit"></i>
+            <FaRegEdit onClick={() => editUser(user.id)} />
         )}
-
-        <i onClick={() => deleteUser(user.id)} className="fas fa-trash-alt"></i>
+        <RiDeleteBin7Line onClick={() => deleteUser(user.id)} />
       </td>
     </tr>
   )

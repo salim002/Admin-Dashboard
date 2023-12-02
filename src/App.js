@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from "react";
 import './App.css';
 import {getUsers} from "./data/fetchData";
 import Users from "./components/Users";
+import Paging from "./components/Paging";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -112,6 +113,13 @@ function App() {
         deleteUser={deleteUser}
         users={users.filter((user) => user.show).slice(index, index + 10)}
       ></Users>
+
+      <Paging
+        usersLength={users.filter((user) => user.show).length}
+        page={page}
+        setPage={setPage}
+        deleteSelected={deleteSelected}
+      ></Paging>
     </div>
   );
 }
