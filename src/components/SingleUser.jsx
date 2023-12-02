@@ -19,6 +19,7 @@ const SingleUser = (props) => {
             data={`${user.selected}`}
             onChange={() => selectOne(user.id)}
             checked={user.selected}
+            className={styles.checkbox}
           ></input>
         </label>
       </td>

@@ -7,8 +7,8 @@ import SearchBox from "./components/SearchBox";
 
 function App() {
   const [users, setUsers] = useState([]);
-  const [update, setUpdate] = useState(false);
   const [page, setPage] = useState(1);
+  const [update, setUpdate] = useState(false);
   const selectAllRef = useRef(null);
 
   useEffect(() => {

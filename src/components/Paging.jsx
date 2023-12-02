@@ -9,8 +9,10 @@ const Paging = (props) => {
     }
 
     const totalPages = getTotalPages(usersLength);
+    // console.log(totalPages);
+    // console.log(usersLength);
     const changePage = (index) => {
-    setPage(index);
+        setPage(index);
     };
 
     const navigatePage = (index) => {

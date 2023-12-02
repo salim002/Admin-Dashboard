@@ -7,7 +7,7 @@
 }
 
 .table tr {
-    border-bottom: 1px solid black;
+    border: 1px solid rgb(185, 179, 179);
     text-align: left;
     height: 10%;
 }
@@ -26,3 +26,7 @@
     padding: 2px 0 4px 0;
 }
 
+.checkbox{
+    margin-left: 20px;
+}
+  

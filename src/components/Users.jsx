@@ -3,92 +3,77 @@ import styles from "./UsersStyle.module.css";
 import SingleUser from "./SingleUser";
 
 const Users = (props) => {
-    const {
-        users,
-        setUsers,
-        update,
-        setUpdate,
-        selectAllRef,
-        setPage,
-        page,
-      } = props;
+    const {users, setUsers, update, setUpdate, selectAllRef, setPage, page} = props;
+    // console.log(users);
 
-      const deleteUser = (id) => {
-        let tempUsers = users.filter((user) => user.id !== id);
-        setUsers(tempUsers);
+    const deleteUser = (id) => {
+        let tmp = users.filter((user) => user.id !== id);
+        setUsers(tmp);
         setUpdate((prevState) => !prevState);
-      };
+    };
 
-      const editUser = (id) => {
-        let tempUsers = users;
-        const index = tempUsers.findIndex((user) => user.id === id);
-        tempUsers[index].edit = true;
-        setUsers(tempUsers);
+    const editUser = (id) => {
+        let tmp = users;
+        const index = tmp.findIndex((user) => user.id === id);
+        tmp[index].edit = true;
+        setUsers(tmp);
         setUpdate((prevState) => !prevState);
-      };
+    };
 
-      const selectOne = (id) => {
-        let tempUsers = users;
-        const index = tempUsers.findIndex((user) => user.id === id);
-        tempUsers[index].selected = !tempUsers[index].selected;
-        setUsers(tempUsers);
+    const selectOne = (id) => {
+        let tmp = users;
+        const index = tmp.findIndex((user) => user.id === id);
+        tmp[index].selected = !tmp[index].selected;
+        setUsers(tmp);
         setUpdate((prevState) => !prevState);
-      };
+    };
 
-      const getIndex = (page)=> {
+    const getIndex = (page)=> {
         return (page-1)*10;
-      }
-      const index = getIndex(page);
+    }
+    const index = getIndex(page);
 
-      const selectAll = (e) => {
-        const listedUserIds = users
-          .filter((user) => user.show)
-          .slice(index, index + 10)
-          .map((user) => user.id);
-    
-        let tempUsers = users.map((user) => {
-          if (listedUserIds.includes(user.id)) {
-            user.selected = e.target.checked;
+    const selectAll = (e) => {
+        const listedUserIds = users.filter((user) => user.show).slice(index, index + 10).map((user) => user.id);
+        let tmp = users.map((user) => {
+            if (listedUserIds.includes(user.id)) {
+                user.selected = e.target.checked;
+                return user;
+            }
             return user;
-          }
-          return user;
         });
-    
-        setUsers(tempUsers);
+        setUsers(tmp);
         setUpdate(!update);
-      };
+    };
 
-      const saveUser = (id, nameRef, emailRef, roleRef) => {
-        let tempUsers = users;
-        const index = tempUsers.findIndex((user) => user.id === id);
-        tempUsers[index].name = nameRef.current.value;
-        tempUsers[index].email = emailRef.current.value;
-        tempUsers[index].role = roleRef.current.value;
-        tempUsers[index].edit = false;
-        setUsers(tempUsers);
+    const saveUser = (id, nameRef, emailRef, roleRef) => {
+        let tmp = users;
+        const index = tmp.findIndex((user) => user.id === id);
+        tmp[index].name = nameRef.current.value;
+        tmp[index].email = emailRef.current.value;
+        tmp[index].role = roleRef.current.value;
+        tmp[index].edit = false;
+        setUsers(tmp);
         setUpdate((prevState) => !prevState);
-      };
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         if (users.length === 0 && page > 1) {
-          setPage(page - 1);
+            setPage(page - 1);
         }
-      }, [page, setPage, users.length]);
-      let fillRows = [];
-      for (
-        let i = users.filter((user) => user.show).length;
-        i < 10;
-        i++
-      ) {
-        fillRows.push(<tr key={i}></tr>);
-      }
-    
-      if (users.length === 0 && page === 1) {
-        return <div>NO USERS IN THE SYSTEM</div>;
-      }
+    }, [page, setPage, users.length]);
+
+
+    let Rows = [];
+    for(let i = users.filter((user) => user.show).length; i < 10; i++){
+        Rows.push(<tr key={i}></tr>);
+    }
+    if (users.length === 0 && page === 1) {
+        return <div>No User Found</div>;
+    }
 
   return (
-    <table className={styles.table}>
+      <table className={styles.table}>
       <thead>
         <tr>
           <th>
@@ -99,6 +84,7 @@ const Users = (props) => {
                 selectAll(e);
               }}
               name="selectAll"
+              className={styles.checkbox}
             />
           </th>
           <th>Name</th>
@@ -117,12 +103,13 @@ const Users = (props) => {
               deleteUser={deleteUser}
               key={user.id}
               user={user}
+              users={users}
             ></SingleUser>
           ) : (
             ""
           );
         })}
-        {fillRows}
+        {Rows}
       </tbody>
     </table>
   );

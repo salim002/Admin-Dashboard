@@ -14,14 +14,18 @@
 }
 
 .selected {
-  background: hsl(0, 0%, 90%);
+  background: rgb(220, 224, 237);
 }
 
 .selected input {
-  background: hsl(0, 0%, 90%);
+  background: rgb(220, 224, 237);
 }
 
 label {
   display: inline-block;
   width: 100%;
+}
+
+.checkbox{
+  margin-left: 20px;
 }
